@@ -1,0 +1,23 @@
+{
+  "name": "alten-back-end",
+  "version": "1.0.0",
+  "description": "Alten Back-end Test",
+  "keywords": [
+    "ALTEN"
+  ],
+  "homepage": "https://github.com/YounesB26/alten-shop-full-stack#readme",
+  "bugs": {
+    "url": "https://github.com/YounesB26/alten-shop-full-stack/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YounesB26/alten-shop-full-stack.git"
+  },
+  "license": "ISC",
+  "author": "Younes B.",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  }
+}
