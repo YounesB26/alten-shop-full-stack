@@ -16,8 +16,17 @@
   "license": "ISC",
   "author": "Younes B.",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "test"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "json-server": "^1.0.0-beta.3",
+    "jsonwebtoken": "^9.0.2",
+    "winston": "^3.17.0"
   }
 }
