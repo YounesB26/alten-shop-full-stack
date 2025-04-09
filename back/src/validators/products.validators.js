@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 
 const productValidator = [
-  body("id").notEmpty().withMessage("id is required"),
+  // body("id").notEmpty().withMessage("id is required"),
   body("code").notEmpty().withMessage("code is required"),
   body("name").notEmpty().withMessage("name is required"),
   body("description").notEmpty().withMessage("description is required"),

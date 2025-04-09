@@ -1,13 +1,16 @@
 const {
   getProductsController,
+  getProductByIdController,
+  createProductController,
 } = require("../controllers/products.controllers");
 const productValidator = require("../validators/products.validators");
-const logger = require("../utils/logger");
 const router = require("express").Router();
 
 router
   .route("/")
-  .get(productValidator, getProductsController)
-  .post(productValidator, (req, res) => {});
-  
+  .get(getProductsController)
+  .post(productValidator, createProductController);
+
+router.route("/:id").get(getProductByIdController);
+
 module.exports = router;
