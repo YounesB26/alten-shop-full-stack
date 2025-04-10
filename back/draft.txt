@@ -1,0 +1,70 @@
+
+
+//PATCH AND DELETE PRODUCTS
+router
+  .route("/:id")
+  .get(async (req, res) => {
+    try {
+      if (!process.env.API_URI) {
+        throw new Error("API_URI is not defined in environment variables.");
+      }
+
+      // Fetching data from API
+      const response = await fetch(
+        `${process.env.API_URI}/products/${req.params.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "GET",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
+
+      // Parsing data
+      const product = await response.json();
+      res.status(200).json(product);
+    } catch (error) {
+      logger.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  })
+  .patch(async (req, res) => {
+    try {
+      if (!process.env.API_URI) {
+        throw new Error("API_URI is not defined in environment variables.");
+      }
+
+      if (!req.params.id || isNaN(req.params.id)) {
+        return res.status(400).json({ error: "Product ID is required" });
+      }
+      const productId = req.params.id;
+
+      const response = await fetch(
+        `${process.env.API_URI}/products/${productId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "PATCH",
+          body: JSON.stringify(req.body),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
+      }
+
+      // Parsing data
+      const product = await response.json();
+      res.status(200).json(product);
+    } catch (error) {
+      logger.error(error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  })
+  .delete(async (req, res) => {});
+
