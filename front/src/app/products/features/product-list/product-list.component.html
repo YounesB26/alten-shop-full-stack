@@ -1,0 +1,75 @@
+<h1 class="text-center">Liste des produits</h1>
+
+<p-button label="Créer produit" (onClick)="onCreate()" class="block text-center"/>
+
+<p-dataView #dv [value]="products()" [paginator]="true" [rows]="5" [paginatorPosition]="'bottom'">
+    <ng-template pTemplate="list" let-products>
+        @for (product of products; track product; let i = $index) {
+            <p-card class="block mb-2">
+                <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+                <div class="flex-initial pt-4 pb-1">
+                    <p-image [src]="product.image" [alt]="product.image" width="150"></p-image>
+                </div>
+                <div class="flex flex-wrap gap-3 text-lg font-medium text-900 mt-2 mb-1">
+                    <div class="flex-initial">
+                        {{ product.name }}
+                    </div>
+                    <div class="flex-initial text-900 align-bottom">{{ product.price | madCurrency}}</div>
+                </div>
+
+                <div class="flex gap-2">
+                    <div class="flex-initial surface-100 p-1 border-round-xl shadow-2">
+                        {{product.rating}} <i class="pi pi-star-fill text-yellow-500"></i>
+                    </div>
+                    <div class="flex-initial  surface-100 p-1 border-round-xl shadow-2">
+                        <span class="flex-initial text-sm font-medium top-100 align-self-end" [appStockColor]="product.inventoryStatus">{{product.inventoryStatus | statusFormatting}}</span>
+                    </div>
+                </div>
+                <!-- <p-rating [(ngModel)]="product.rating" [cancel]="false" [readonly]="true" stars="10"></p-rating> -->
+                
+
+                <ng-template pTemplate="content">
+                    <p class="text-sm mt-4">
+                        {{product.description}} ...
+                    </p>
+                </ng-template>
+                
+                <ng-template pTemplate="footer">
+                    <div class="flex gap-3 mt-1">
+                        <p-button label="Modifier" severity="secondary" (onClick)="onUpdate(product)"/>
+                        <p-button label="Supprimer" severity="danger" (onClick)="onDelete(product)" />
+
+                        <div class="p-inputgroup">
+                            <input type="number"
+                                pInputText 
+                                #quantityInput
+                                min="0"
+                                value="0"
+                                step="1"
+                                [disabled]="product.inventoryStatus==='OUTOFSTOCK'"
+                                class="text-base text-color p-2 border-1 max-w-4rem">
+                            <button 
+                                type="button" 
+                                pButton 
+                                icon="pi pi-cart-plus" 
+                                styleClass="p-button-warn"
+                                (click)="onAddToCart(product,quantityInput.value)"
+                                [disabled]="product.inventoryStatus==='OUTOFSTOCK'"
+                            ></button>      
+                        </div>
+                    </div>
+                </ng-template>
+            </p-card>
+        }
+    </ng-template>
+</p-dataView>
+
+<p-dialog [(visible)]="isDialogVisible"
+    [style]="{ width: '50vw' }"
+    header="Ajout/Edition produit">
+    <app-product-form
+        [product]="editedProduct()"
+        (save)="onSave($event)"
+        (cancel)="onCancel()"
+    />
+</p-dialog>

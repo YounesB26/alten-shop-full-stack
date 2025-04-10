@@ -1,0 +1,79 @@
+<p-toast />
+<div class="block m-5">
+  <div class="block p-4 surface-100 font-bold border-round-lg">
+    <div class="field flex justify-content-center">
+      <h1 class="font-light text-primary uppercase">Contactez-nous</h1>
+    </div>
+    <form
+      #contactForm="ngForm"
+      (ngSubmit)="onFormSubmit()"
+      class="col-10 col-offset-1"
+    >
+      <div class="field">
+        <input
+          pInputText
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Votre email"
+          [(ngModel)]="email"
+          #emailInput="ngModel"
+          required
+          email
+          maxlength="254"
+          class="text-base p-2 border-1 border-solid border-round w-full mb-1"
+        />
+        <div
+          *ngIf="emailInput.errors?.required && emailInput.touched"
+          class="p-inline-message p-component p-inline-message-error ng-star-inserted w-8"
+        >
+          <i class="pi pi-check"></i> L'email est requis
+        </div>
+        <div
+          *ngIf="emailInput.errors?.email && emailInput.touched"
+          class="p-inline-message p-component p-inline-message-error ng-star-inserted w-8"
+        >
+          <i class="pi pi-check"></i> Veuillez saisir un email valide
+        </div>
+      </div>
+      <div class="field">
+        <label for="message" class="text-sm font-light w-full text-right"
+          >{{ imputedSize }} / {{ maxLength }}</label
+        >
+        <textarea
+          id="message"
+          pInputTextarea
+          placeholder="Votre message"
+          #messageTextarea="ngModel"
+          #messageValue
+          [(ngModel)]="message"
+          name="message"
+          type="text"
+          required
+          rows="10"
+          (input)="onTextareaInput()"
+          [maxlength]="maxLength"
+          class="text-base border-1 border-solid border-round w-full"
+        ></textarea>
+
+        <div
+          *ngIf="messageTextarea.errors?.required && messageTextarea.touched"
+          class="p-inline-message p-component p-inline-message-error ng-star-inserted w-full"
+        >
+          <i class="pi pi-check"></i> Le message est requis
+        </div>
+
+        <div
+          *ngIf="messageTextarea.errors?.maxlength && messageTextarea.touched"
+          class="p-inline-message p-component p-inline-message-error ng-star-inserted w-full"
+        >
+          <i class="pi pi-check"></i> Le message doit être inférieur à 300
+          caractères caractères
+        </div>
+      </div>
+      <div class="field flex justify-content-center">
+        <p-button type="submit" label="Envoyer" icon="pi pi-check"></p-button>
+      </div>
+    </form>
+  </div>
+</div>

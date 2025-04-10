@@ -1,0 +1,66 @@
+<p-toolbar [style]="{ height: '100px' }">
+    <div class="p-toolbar-group-start">
+        <img src="assets/icons/icon-72x72.png" alt="logo" />
+    </div>
+    <div class="p-toolbar-group-center">
+        {{ title }}
+    </div>
+    <div class="p-toolbar-group-end cursor-pointer" (click)="onCartClick(overlay, $event)">
+        <i class="pi pi-shopping-cart mr-2" pBadge [value]="cartCount" style="font-size: 2rem"></i>
+    </div>
+
+</p-toolbar>
+<p-splitter 
+    [panelSizes]="[20, 80]" 
+    [style]="{ height: 'calc(100vh - 100px)' }">
+    <ng-template pTemplate>
+        <div class="w-full">
+            <app-panel-menu />
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div class="w-full app-content">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-template>
+</p-splitter>
+
+<p-overlayPanel #overlay [showCloseIcon]="false" [style]="{width: '500px'}" class="mr-5">
+    <ng-template pTemplate>
+        <p-table [value]="cartContent" 
+                [paginator]="false">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th style="min-width: '100px';">Quantity</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-product>
+                <tr [pSelectableRow]="rowData">
+                    <td>{{product.name}}</td>
+                    <td class="col-1">
+                            <input type="number" min="1" step="1" 
+                            [(ngModel)]="product.quantity" 
+                            (change)="onCartInputChange($event)" 
+                            class="text-base text-color 
+                            surface-overlay p-2
+                            border-1 border-solid surface-border 
+                            border-round appearance-none outline-none 
+                            focus:border-primary w-full"/>
+                    </td>
+                    <td>{{product.price * product.quantity  | madCurrency}}</td>
+                    <td>
+                        <button pButton 
+                        type="button" 
+                        icon="pi pi-times"
+                        class="p-button-rounded p-button-danger p-button-text"
+                        (click)="onDeleteItem(product)"
+                        ></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+</p-overlayPanel>
