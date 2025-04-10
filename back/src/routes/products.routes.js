@@ -2,15 +2,23 @@ const {
   getProductsController,
   getProductByIdController,
   createProductController,
+  updateProductController,
+  deleteProductController,
 } = require("../controllers/products.controllers");
-const productValidator = require("../validators/products.validators");
+const { authentication, isAdmin } = require("../middlewares/auth.middleware");
 const router = require("express").Router();
+
+router.use(authentication);
 
 router
   .route("/")
   .get(getProductsController)
-  .post(productValidator, createProductController);
+  .post(isAdmin, createProductController);
 
-router.route("/:id").get(getProductByIdController);
+router
+  .route("/:id")
+  .get(getProductByIdController)
+  .patch(isAdmin, updateProductController)
+  .delete(isAdmin, deleteProductController);
 
 module.exports = router;
